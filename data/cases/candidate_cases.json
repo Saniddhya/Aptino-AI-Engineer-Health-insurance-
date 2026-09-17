@@ -1,0 +1,7 @@
+[
+{"case_id":"CAND-001","policy_start":"2024-01-01","admission_date":"2026-02-01","treatment":"hospitalisation","diagnosis":"infection","claimed_amount":10000,"sum_insured":50000,"documents":["bill"],"continuity_months":25},
+{"case_id":"CAND-002","policy_start":"2024-01-01","admission_date":"2026-02-01","treatment":"hospitalisation","diagnosis":"infection","claimed_amount":60000,"sum_insured":50000,"documents":["bill"],"continuity_months":25},
+{"case_id":"CAND-003","policy_start":"2025-01-01","admission_date":"2025-03-01","treatment":"planned treatment","diagnosis":"condition","claimed_amount":10000,"sum_insured":50000,"documents":["bill"],"continuity_months":2},
+{"case_id":"CAND-004","policy_start":"2025-01-01","treatment":"planned treatment","diagnosis":"condition","claimed_amount":10000,"sum_insured":50000,"documents":["bill"]},
+{"case_id":"CAND-005","policy_start":"2024-01-01","admission_date":"2026-02-01","treatment":"hospitalisation","diagnosis":"infection","sum_insured":50000,"documents":["bill"],"continuity_months":25}
+]

@@ -1,0 +1,11 @@
+.venv/
+__pycache__/
+*.pyc
+.env
+.pytest_cache/
+.streamlit/secrets.toml
+data/index/
+data/reviews.json
+evaluation/results.json
+evaluation/report.md
+.DS_Store

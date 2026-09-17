@@ -1,0 +1,48 @@
+#!/usr/bin/env python3
+"""Generate agents.py with all fixes applied."""
+
+lines = []
+lines.append('from __future__ import annotations')
+lines.append('import time')
+lines.append('import logging')
+lines.append('import re')
+lines.append('from datetime import date')
+lines.append('from .schemas import Claim, Citation, Finding, TraceEvent')
+lines.append('')
+lines.append('logger = logging.getLogger(__name__)')
+lines.append('')
+lines.append('def _elapsed(name, started, status, summary):')
+lines.append('    return TraceEvent(agent=name, status=status, duration_ms=int((time.perf_counter()-started)*1000), summary=summary)')
+lines.append('')
+lines.append('def _days_between(start, end):')
+lines.append('    try:')
+lines.append('        return (date.fromisoformat(end)-date.fromisoformat(start)).days')
+lines.append('    except (TypeError, ValueError):')
+lines.append('        return None')
+lines.append('')
+lines.append('def _get_policy_concepts(evidence: list[dict]) -> dict:')
+lines.append('    """Extract key policy concepts from retrieved evidence."""')
+lines.append("    text = ' '.join(e['text'].lower() for e in evidence)")
+lines.append('    concepts = {')
+lines.append("        'has_waiting_period': any(phrase in text for phrase in ['waiting period', '24 month', '30 days']),")
+lines.append("        'waiting_period_months': None,")
+lines.append("        'has_experimental_exclusion': any(phrase in text for phrase in ['experimental', 'unproven', 'investigational']),")
+lines.append("        'has_cosmetic_exclusion': any(phrase in text for phrase in ['cosmetic', 'aesthetic']),")
+lines.append("        'has_domiciliary': 'domiciliary' in text,")
+lines.append("        'has_day_care': any(phrase in text for phrase in ['day care', 'day-care']),")
+lines.append("        'has_hospital_definition': 'hospital' in text and ('definition' in text or 'means' in text),")
+lines.append("        'has_portability': any(phrase in text for phrase in ['portability', 'continuous coverage']),")
+lines.append('    }')
+lines.append('')
+lines.append("    waits = re.findall(r'(\\d+)\\s*(month|months)', text)")
+lines.append('    if waits:')
+lines.append("        concepts['waiting_period_months'] = max(int(w) for w in waits)")
+lines.append('')
+lines.append('    return concepts')
+lines.append('')
+
+# Write the file
+with open('../app/agents.py', 'w') as f:
+    f.write('\n'.join(lines))
+
+print("Part 1 written")

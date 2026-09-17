@@ -1,0 +1,14 @@
+[
+{"case_id":"PUB-001","policy_start":"2024-01-01","admission_date":"2026-02-01","treatment":"hospitalisation","diagnosis":"infection","claimed_amount":10000,"sum_insured":50000,"documents":["bill"],"continuity_months":25},
+{"case_id":"PUB-002","policy_start":"2025-01-01","admission_date":"2025-04-01","treatment":"planned treatment","diagnosis":"condition","claimed_amount":5000,"sum_insured":50000,"documents":["bill"],"continuity_months":3},
+{"case_id":"PUB-003","policy_start":"2024-01-01","admission_date":"2026-02-01","treatment":"hospitalisation","diagnosis":"infection","claimed_amount":70000,"sum_insured":50000,"documents":["bill"],"continuity_months":25},
+{"case_id":"PUB-004","policy_start":"2024-01-01","admission_date":"2026-02-01","treatment":"cosmetic treatment","diagnosis":"cosmetic","claimed_amount":2000,"sum_insured":50000,"documents":["bill"],"continuity_months":25},
+{"case_id":"PUB-005","policy_start":"2024-01-01","admission_date":"2026-02-01","treatment":"hospitalisation","diagnosis":"infection","claimed_amount":1000,"sum_insured":50000,"documents":["bill"],"continuity_months":25},
+{"case_id":"PUB-006","policy_start":"2024-01-01","admission_date":"2026-02-01","treatment":"hospitalisation","diagnosis":"infection","claimed_amount":1200,"sum_insured":50000,"documents":["bill"],"continuity_months":25},
+{"case_id":"PUB-007","policy_start":"2024-01-01","admission_date":"2026-02-01","treatment":"hospitalisation","diagnosis":"infection","claimed_amount":1300,"sum_insured":50000,"documents":["bill"],"continuity_months":25},
+{"case_id":"PUB-008","policy_start":"2024-01-01","admission_date":"2026-02-01","treatment":"hospitalisation","diagnosis":"infection","claimed_amount":1400,"sum_insured":50000,"documents":["bill"],"continuity_months":25},
+{"case_id":"PUB-009","policy_start":"2024-01-01","admission_date":"2026-02-01","treatment":"hospitalisation","diagnosis":"infection","claimed_amount":1500,"sum_insured":50000,"documents":["bill"],"continuity_months":25},
+{"case_id":"PUB-010","policy_start":"2024-01-01","admission_date":"2026-02-01","treatment":"hospitalisation","diagnosis":"infection","claimed_amount":1600,"sum_insured":50000,"documents":["bill"],"continuity_months":25},
+{"case_id":"PUB-011","policy_start":"2024-01-01","admission_date":"2026-02-01","treatment":"hospitalisation","diagnosis":"infection","claimed_amount":1700,"sum_insured":50000,"documents":["bill"],"continuity_months":25},
+{"case_id":"PUB-012","policy_start":"2024-01-01","admission_date":"2026-02-01","treatment":"hospitalisation","diagnosis":"infection","claimed_amount":1800,"sum_insured":50000,"documents":["bill"],"continuity_months":25}
+]
