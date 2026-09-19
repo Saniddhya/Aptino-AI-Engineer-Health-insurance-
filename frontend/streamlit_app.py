@@ -165,13 +165,13 @@ if page == 'Claims':
         with st.expander('🛠️ Retrieval Quality Panel'):
             if res.retrieval_diagnostics:
                 for diag in res.retrieval_diagnostics:
-                    st.write(f"**Query:** {diag['query']}")
+                    st.write(f"**Query:** {diag.get('query', 'N/A')}")
                     col_d, col_b, col_f, col_final = st.columns(4)
-                    col_d.metric('Dense', diag['dense_count'])
-                    col_b.metric('BM25', diag['bm25_count'])
-                    col_f.metric('Fused', diag['fused_count'])
-                    col_final.metric('Final', diag['final_count'])
-                    st.write(f"Final IDs: {', '.join(diag['final_ids'])}")
+                    col_d.metric('Dense', diag.get('dense_count', 0))
+                    col_b.metric('BM25', diag.get('bm25_count', 0))
+                    col_f.metric('Fused', diag.get('fused_count', 0))
+                    col_final.metric('Final', diag.get('final_count', 0))
+                    st.write(f"Final IDs: {', '.join(diag.get('final_ids', []))}")
                     st.divider()
             else:
                 st.warning("No retrieval diagnostics available.")
