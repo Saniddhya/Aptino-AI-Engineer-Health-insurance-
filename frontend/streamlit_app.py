@@ -1,8 +1,15 @@
-import json
 import streamlit as st
+import sys
+from pathlib import Path
+
+# Add the project root to the Python path so 'app' package can be found
+ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.append(str(ROOT))
+
+import json
 import requests
 import os
-from pathlib import Path
 from datetime import datetime
 from app.schemas import Claim, DecisionResponse, ReviewAction
 
