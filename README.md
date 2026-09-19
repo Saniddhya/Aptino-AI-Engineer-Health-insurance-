@@ -1,5 +1,7 @@
 # Aptino Policy-Aware Claim Decision Engine
 
+**🚀 Live Demo:** [https://aptionohealth.streamlit.app/](https://aptionohealth.streamlit.app/)
+
 A professional-grade, evidence-grounded claim investigation platform for synthetic health-insurance claims. This system transforms raw claim data into an auditable investigation, mapping claim facts to policy requirements via a structured evidence matrix, ensuring every decision is grounded in retrieved policy text.
 
 The authoritative source is [`policy/USGIC-CSCIndividualHealthInsurance_2017-2018.pdf`](policy/USGIC-CSCIndividualHealthInsurance_2017-2018.pdf).
@@ -79,8 +81,8 @@ Copy-Item .env.example .env
 # 4. Ingest Policy (Mandatory first step)
 python scripts/ingest_policy.py
 
-# 5. Start Backend
-uvicorn app.main:app --reload
+# 5. Start Application
+streamlit run frontend/streamlit_app.py
 ```
 
 ## 💻 Interface & API
