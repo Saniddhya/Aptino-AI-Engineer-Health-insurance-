@@ -78,14 +78,14 @@ if page == 'Claims':
         with st.expander('📋 CLAIM OVERVIEW', expanded=True):
             col1, col2, col3 = st.columns(3)
             col1.write(f"**Case ID:** {res.case_id}")
-            col1.write(f"**Claim Date:** {raw.get('claim_date')}")
-            col1.write(f"**Sum Insured:** {raw.get('sum_insured_inr')}")
+            col1.write(f"**Claim Date:** {raw.get('claim_date') or raw.get('admission_date', 'N/A')}")
+            col1.write(f"**Sum Insured:** {raw.get('sum_insured_inr') or raw.get('sum_insured', 'N/A')}")
 
-            col2.write(f"**Treatment:** {raw.get('treatment', {}).get('diagnosis', 'N/A')}")
-            col2.write(f"**Hospital:** {raw.get('hospital', {}).get('name', 'N/A')}")
-            col2.write(f"**Claim Amount:** {raw.get('expenses_inr', {}).get('room', 0)}")
+            col2.write(f"**Treatment:** {raw.get('treatment', {}).get('diagnosis', 'N/A') if isinstance(raw.get('treatment'), dict) else raw.get('treatment', 'N/A')}")
+            col2.write(f"**Hospital:** {raw.get('hospital', {}).get('name', 'N/A') if isinstance(raw.get('hospital'), dict) else raw.get('hospital', 'N/A')}")
+            col2.write(f"**Claim Amount:** {raw.get('expenses_inr', {}).get('room', 0) if isinstance(raw.get('expenses_inr'), dict) else raw.get('claimed_amount', 0)}")
 
-            col3.write(f"**Documents:** {', '.join(raw.get('documents', []))}")
+            col3.write(f"**Documents:** {', '.join(raw.get('documents', [])) if isinstance(raw.get('documents'), list) else 'N/A'}")
 
         # --- CLAIM TIMELINE ---
         st.subheader('Claim Timeline')
