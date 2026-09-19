@@ -110,26 +110,16 @@ def analyze(claim: Claim) -> DecisionResponse:
 
     for q in questions:
         retriever = engine()
-        bm = retriever.bm25(q)
-        de = retriever.dense(q)
-        br = sorted(range(len(retriever.chunks)), key=lambda i: bm[i], reverse=True)[:10]
-        dr = sorted(range(len(retriever.chunks)), key=lambda i: de[i], reverse=True)[:10]
-        fused = {}
-        for ranking in (br, dr):
-            for rank, i in enumerate(ranking, 1):
-                fused[i] = fused.get(i, 0) + 1 / (retriever.rrf_k + rank)
-        qset = set(tokens(q))
-        candidates = []
-        for i, f in fused.items():
-            overlap = len(qset & set(retriever.docs[i])) / max(1, len(qset))
-            rerank = .70 * f * 100 + .30 * overlap
-            candidates.append((rerank, i, f))
-        final_ids = [i for r, i, f in sorted(candidates, reverse=True)[:5]]
+        evidence_for_q = retriever.search(q)
+
+        # Log diagnostics for this query
+        # We simulate the diagnostic data since search() does the heavy lifting
         retrieval_diagnostics.append({
-            "query": q, "dense_count": len(dr), "bm25_count": len(br),
-            "fused_count": len(fused), "final_count": len(final_ids), "final_ids": final_ids
+            "query": q,
+            "final_count": len(evidence_for_q),
+            "final_ids": [e['chunk_id'] for e in evidence_for_q]
         })
-        all_evidence.extend(retriever.search(q))
+        all_evidence.extend(evidence_for_q)
 
     unique_evidence = {}
     for e in all_evidence:

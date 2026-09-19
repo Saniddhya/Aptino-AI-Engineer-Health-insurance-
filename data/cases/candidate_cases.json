@@ -1,7 +1,123 @@
 [
-{"case_id":"CAND-001","policy_start":"2024-01-01","admission_date":"2026-02-01","treatment":"hospitalisation","diagnosis":"infection","claimed_amount":10000,"sum_insured":50000,"documents":["bill"],"continuity_months":25},
-{"case_id":"CAND-002","policy_start":"2024-01-01","admission_date":"2026-02-01","treatment":"hospitalisation","diagnosis":"infection","claimed_amount":60000,"sum_insured":50000,"documents":["bill"],"continuity_months":25},
-{"case_id":"CAND-003","policy_start":"2025-01-01","admission_date":"2025-03-01","treatment":"planned treatment","diagnosis":"condition","claimed_amount":10000,"sum_insured":50000,"documents":["bill"],"continuity_months":2},
-{"case_id":"CAND-004","policy_start":"2025-01-01","treatment":"planned treatment","diagnosis":"condition","claimed_amount":10000,"sum_insured":50000,"documents":["bill"]},
-{"case_id":"CAND-005","policy_start":"2024-01-01","admission_date":"2026-02-01","treatment":"hospitalisation","diagnosis":"infection","sum_insured":50000,"documents":["bill"],"continuity_months":25}
+  {
+    "case_id": "CAND-001",
+    "policy_start": "2024-01-01",
+    "admission_date": "2026-02-01",
+    "treatment": "hospitalisation",
+    "diagnosis": "infection",
+    "claimed_amount": 10000,
+    "sum_insured": 50000,
+    "documents": ["bill"],
+    "continuity_months": 25
+  },
+  {
+    "case_id": "CAND-002",
+    "policy_start": "2024-01-01",
+    "admission_date": "2026-02-01",
+    "treatment": "hospitalisation",
+    "diagnosis": "infection",
+    "claimed_amount": 60000,
+    "sum_insured": 50000,
+    "documents": ["bill"],
+    "continuity_months": 25
+  },
+  {
+    "case_id": "CAND-003",
+    "policy_start": "2025-01-01",
+    "admission_date": "2025-03-01",
+    "treatment": "planned treatment",
+    "diagnosis": "condition",
+    "claimed_amount": 10000,
+    "sum_insured": 50000,
+    "documents": ["bill"],
+    "continuity_months": 2
+  },
+  {
+    "case_id": "CAND-004",
+    "policy_start": "2025-01-01",
+    "treatment": "planned treatment",
+    "diagnosis": "condition",
+    "claimed_amount": 10000,
+    "sum_insured": 50000,
+    "documents": ["bill"]
+  },
+  {
+    "case_id": "CAND-005",
+    "policy_start": "2024-01-01",
+    "admission_date": "2026-02-01",
+    "treatment": "hospitalisation",
+    "diagnosis": "infection",
+    "sum_insured": 50000,
+    "documents": ["bill"],
+    "continuity_months": 25
+  },
+  {
+    "case_id": "CAND-006",
+    "description": "Scenario: Boundary Waiting Period (23 months vs 24)",
+    "policy_start": "2024-01-01",
+    "admission_date": "2025-11-15",
+    "treatment": "planned surgery",
+    "diagnosis": "Chronic Kidney Disease",
+    "claimed_amount": 150000,
+    "sum_insured": 500000,
+    "documents": ["bill", "medical_report"],
+    "continuity_months": 22,
+    "expected_decision": "NOT_ADMISSIBLE"
+  },
+  {
+    "case_id": "CAND-007",
+    "description": "Scenario: Category-specific Sub-limit (Room Rent Cap)",
+    "policy_start": "2023-01-01",
+    "admission_date": "2026-01-10",
+    "treatment": "hospitalisation",
+    "diagnosis": "Pneumonia",
+    "claimed_amount": 200000,
+    "sum_insured": 500000,
+    "documents": ["bill", "discharge_summary"],
+    "continuity_months": 36,
+    "room_rent_actual": 15000,
+    "room_rent_limit": 5000,
+    "expected_decision": "ADMISSIBLE_WITH_LIMITS"
+  },
+  {
+    "case_id": "CAND-008",
+    "description": "Scenario: Insufficient Evidence (Missing Discharge Summary)",
+    "policy_start": "2024-01-01",
+    "admission_date": "2026-05-20",
+    "treatment": "hospitalisation",
+    "diagnosis": "Acute Gastritis",
+    "claimed_amount": 40000,
+    "sum_insured": 500000,
+    "documents": ["bill"],
+    "continuity_months": 28,
+    "expected_decision": "NEEDS_REVIEW"
+  },
+  {
+    "case_id": "CAND-009",
+    "description": "Scenario: Combined Evidence (Definition + Limit)",
+    "policy_start": "2023-01-01",
+    "admission_date": "2026-08-12",
+    "treatment": "domiciliary",
+    "diagnosis": "Severe Influenza",
+    "claimed_amount": 30000,
+    "sum_insured": 500000,
+    "documents": ["doctor_certificate", "bill"],
+    "continuity_months": 40,
+    "hospital_unavailable": true,
+    "expected_decision": "ADMISSIBLE_WITH_LIMITS"
+  },
+  {
+    "case_id": "CAND-010",
+    "description": "Scenario: Non-relevant Attribute (Distractor)",
+    "policy_start": "2024-01-01",
+    "admission_date": "2026-09-01",
+    "treatment": "hospitalisation",
+    "diagnosis": "Appendicitis",
+    "claimed_amount": 50000,
+    "sum_insured": 500000,
+    "documents": ["bill", "discharge_summary"],
+    "continuity_months": 24,
+    "patient_hobby": "Mountain Biking",
+    "expected_decision": "ADMISSIBLE"
+  }
 ]

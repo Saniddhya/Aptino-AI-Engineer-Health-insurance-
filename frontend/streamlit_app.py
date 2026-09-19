@@ -1,10 +1,10 @@
 import json
 import streamlit as st
 import requests
+import os
 from pathlib import Path
 from datetime import datetime
-from app.schemas import Claim
-from app.service import analyze
+from app.schemas import Claim, DecisionResponse, ReviewAction
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -50,6 +50,7 @@ if page == 'Claims':
     if st.button('Analyze Claim', type='primary'):
         with st.spinner('Executing multi-agent investigation...'):
             try:
+                # Call the analyze function directly instead of using requests to localhost
                 result = analyze(Claim(**raw))
                 st.session_state['analysis_result'] = result
             except Exception as e:
@@ -73,7 +74,7 @@ if page == 'Claims':
 
         # --- CLAIM TIMELINE ---
         st.subheader('Claim Timeline')
-        from app.service import generate_timeline
+        from app.service import analyze, generate_timeline, generate_report, save_review
         timeline = generate_timeline(Claim(**raw))
         t_cols = st.columns(len(timeline))
         for i, event in enumerate(timeline):
@@ -173,19 +174,15 @@ if page == 'Claims':
         st.subheader('Reviewer Actions')
         col_rev1, col_rev2, col_rev3, col_rev4 = st.columns(4)
 
-        import requests
-        API_URL = "http://localhost:8000"
-
         def submit_action(action, reason="No reason provided"):
-            review_data = {
-                "original_decision": res.decision,
-                "reviewer_decision": res.decision, # Default to same
-                "reviewer_action": action,
-                "reviewer_reason": reason,
-                "timestamp": datetime.now().isoformat()
-            }
+            review_data = ReviewAction(
+                original_decision=res.decision,
+                reviewer_decision=res.decision, # Default to same
+                reviewer_action=action,
+                reviewer_reason=reason,
+            )
             try:
-                requests.post(f"{API_URL}/review", json=review_data)
+                save_review(review_data)
                 st.success(f'Action {action} recorded!')
             except Exception as e:
                 st.error(f"Failed to submit review: {e}")
