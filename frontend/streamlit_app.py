@@ -74,22 +74,27 @@ if page == 'Claims':
     if 'analysis_result' in st.session_state:
         res = st.session_state['analysis_result']
 
+        # Ensure raw is a dictionary for the display section
+        display_raw = raw[0] if isinstance(raw, list) and len(raw) > 0 else (raw if isinstance(raw, dict) else {})
+
         # --- CLAIM OVERVIEW ---
         with st.expander('📋 CLAIM OVERVIEW', expanded=True):
             col1, col2, col3 = st.columns(3)
             col1.write(f"**Case ID:** {res.case_id}")
-            col1.write(f"**Claim Date:** {raw.get('claim_date') or raw.get('admission_date', 'N/A')}")
-            col1.write(f"**Sum Insured:** {raw.get('sum_insured_inr') or raw.get('sum_insured', 'N/A')}")
+            col1.write(f"**Claim Date:** {display_raw.get('claim_date') or display_raw.get('admission_date', 'N/A')}")
+            col1.write(f"**Sum Insured:** {display_raw.get('sum_insured_inr') or display_raw.get('sum_insured', 'N/A')}")
 
-            col2.write(f"**Treatment:** {raw.get('treatment', {}).get('diagnosis', 'N/A') if isinstance(raw.get('treatment'), dict) else raw.get('treatment', 'N/A')}")
-            col2.write(f"**Hospital:** {raw.get('hospital', {}).get('name', 'N/A') if isinstance(raw.get('hospital'), dict) else raw.get('hospital', 'N/A')}")
-            col2.write(f"**Claim Amount:** {raw.get('expenses_inr', {}).get('room', 0) if isinstance(raw.get('expenses_inr'), dict) else raw.get('claimed_amount', 0)}")
+            col2.write(f"**Treatment:** {display_raw.get('treatment', {}).get('diagnosis', 'N/A') if isinstance(display_raw.get('treatment'), dict) else display_raw.get('treatment', 'N/A')}")
+            col2.write(f"**Hospital:** {display_raw.get('hospital', {}).get('name', 'N/A') if isinstance(display_raw.get('hospital'), dict) else display_raw.get('hospital', 'N/A')}")
+            col2.write(f"**Claim Amount:** {display_raw.get('expenses_inr', {}).get('room', 0) if isinstance(display_raw.get('expenses_inr'), dict) else display_raw.get('claimed_amount', 0)}")
 
-            col3.write(f"**Documents:** {', '.join(raw.get('documents', [])) if isinstance(raw.get('documents'), list) else 'N/A'}")
+            col3.write(f"**Documents:** {', '.join(display_raw.get('documents', [])) if isinstance(display_raw.get('documents'), list) else 'N/A'}")
 
         # --- CLAIM TIMELINE ---
         st.subheader('Claim Timeline')
-        timeline = generate_timeline(Claim(**raw))
+        # Use the a single dict for Claim model
+        claim_obj = Claim(**(raw[0] if isinstance(raw, list) and len(raw) > 0 else (raw if isinstance(raw, dict) else {})))
+        timeline = generate_timeline(claim_obj)
         t_cols = st.columns(len(timeline))
         for i, event in enumerate(timeline):
             with t_cols[i]:
