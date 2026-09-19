@@ -12,6 +12,7 @@ import requests
 import os
 from datetime import datetime
 from app.schemas import Claim, DecisionResponse, ReviewAction
+from app.service import analyze, generate_timeline, generate_report, save_review
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -81,7 +82,6 @@ if page == 'Claims':
 
         # --- CLAIM TIMELINE ---
         st.subheader('Claim Timeline')
-        from app.service import analyze, generate_timeline, generate_report, save_review
         timeline = generate_timeline(Claim(**raw))
         t_cols = st.columns(len(timeline))
         for i, event in enumerate(timeline):
@@ -201,7 +201,6 @@ if page == 'Claims':
         if col_rev3.button('📄 Request Evidence'):
             submit_action('REQUEST_EVIDENCE', 'Additional evidence required')
         if col_rev4.button('💾 Download Report'):
-            from app.service import generate_report
             report_md = generate_report(res)
             st.download_button('Download Markdown', report_md, file_name=f"report_{res.case_id}.md")
 
