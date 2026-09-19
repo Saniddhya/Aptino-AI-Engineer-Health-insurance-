@@ -44,7 +44,9 @@ if page == 'Claims':
     if not case_path.exists(): case_path = ROOT / 'data' / 'cases' / 'public_cases.json'
 
     try:
-        cases = json.loads(case_path.read_text())
+        cases_data = json.loads(case_path.read_text())
+        # Ensure cases is always a list of dictionaries
+        cases = cases_data if isinstance(cases_data, list) else [cases_data]
         ids = [c['case_id'] for c in cases]
         selected = st.selectbox('Select Case ID', ids)
         raw = next(c for c in cases if c['case_id'] == selected)
@@ -58,8 +60,13 @@ if page == 'Claims':
     if st.button('Analyze Claim', type='primary'):
         with st.spinner('Executing multi-agent investigation...'):
             try:
-                # Call the analyze function directly instead of using requests to localhost
-                result = analyze(Claim(**raw))
+                # Ensure raw is a dictionary before passing to Claim
+                if isinstance(raw, list):
+                    claim_dict = raw[0] if len(raw) > 0 else {}
+                else:
+                    claim_dict = raw
+
+                result = analyze(Claim(**claim_dict))
                 st.session_state['analysis_result'] = result
             except Exception as e:
                 st.error(f"Analysis failed: {e}")
